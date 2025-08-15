@@ -1,0 +1,1 @@
+[print({180:'SUPPLEMENTARY',90:'COMPLEMENTARY'}.get(sum([int(i)for i in input().split()]),'NEITHER'))for _ in range(int(input()))]

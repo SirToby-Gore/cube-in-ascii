@@ -1,46 +1,39 @@
-#include <stdio.h>
-#include <stdint.h>
-#include <math.h>
-#include <stdlib.h>
-#include <unistd.h>
+#!/bin/bash
 
-#define WIDTH 100
-#define HEIGHT 100
+$WIDTH=100
+$HEIGHT=100
 
-const char* getCharRed(char chr) {
-    static char buffer[16];
-    sprintf(buffer, "\033[31m%c\033[0m", chr);
-    return buffer;
+getCharRed() {
+    return "\033[31m%c\033[0m$1";
 }
 
-const char* getCharBlue(char chr) {
-    static char buffer[16];
-    sprintf(buffer, "\033[39m%c\033[0m", chr);
-    return buffer;
+getCharBlue() {
+    return "\033[34m%c\033[0m$1";
 }
 
-struct vector {
-    float x;
-    float y;
-    float z;
-};
+declare -A vector
+vector=(x:0.0 y:0.0 z:0.0)
 
+declare -A scene
+scene=(
+    character1:""
+    character2:""
+    offsetX:0.0
+    offsetY:0.0
+    offsetZ:0.0
+    cameraAngleX:0.0
+    cameraAngleY:0.0
+    cameraAngleZ:0.0
+    cameraDistance:100.0
+    scale:100.0
+) 
 
-const char* character1;
-const char* character2;
-const char* pixels[WIDTH][HEIGHT];
-float offsetX = 0;
-float offsetY = 0;
-float offsetZ = 0;
-float cameraAngleX = 0;
-float cameraAngleY = 0;
-float cameraAngleZ = 0;
-float cameraDistance = 100;
-float scale = 100;
+drawLine() {
+    $x0=$1
+    $y0=$2
+    $x1=$3
+    $y1=$4
 
-
-void drawLine(int x0, int y0, int x1, int y1)
-{
     int steep = (abs(y1 - y0) > abs(x1 - x0));
     if (steep) {
         int t = x0;  x0 = y0;  y0 = t; t = x1;      x1 = y1;  y1 = t;
